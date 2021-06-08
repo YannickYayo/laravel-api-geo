@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Yannickyayo\LaravelApiGeo\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelApiGeoCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-api-geo';
 
     public $description = 'My command';
 

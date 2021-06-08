@@ -1,22 +1,22 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "yannickyayo/laravel-api-geo",
+    "description": "Wrapper Laravel pour communiquer avec l'API GEO du gouvernement français.",
     "keywords": [
-        ":vendor_name",
+        "YannickYayo",
         "laravel",
-        "package_slug"
+        "laravel-api-geo"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/yannickyayo/laravel-api-geo",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "LEONE Yannick",
+            "email": "yannick.leone@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^7.4",
         "spatie/laravel-package-tools": "^1.4.3",
         "illuminate/contracts": "^8.37"
     },
@@ -25,18 +25,17 @@
         "nunomaduro/collision": "^5.3",
         "orchestra/testbench": "^6.15",
         "phpunit/phpunit": "^9.3",
-        "spatie/laravel-ray": "^1.9",
         "vimeo/psalm": "^4.4"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Yannickyayo\\LaravelApiGeo\\": "src",
+            "Yannickyayo\\LaravelApiGeo\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Yannickyayo\\LaravelApiGeo\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Yannickyayo\\LaravelApiGeo\\LaravelApiGeoServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "LaravelApiGeo": "Yannickyayo\\LaravelApiGeo\\LaravelApiGeoFacade"
             }
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Yannickyayo\LaravelApiGeo\Tests;
 
 class ExampleTest extends TestCase
 {
