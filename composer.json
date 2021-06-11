@@ -54,7 +54,7 @@
                 "Yannickyayo\\LaravelApiGeo\\LaravelApiGeoServiceProvider"
             ],
             "aliases": {
-                "LaravelApiGeo": "Yannickyayo\\LaravelApiGeo\\LaravelApiGeoFacade"
+                "LaravelApiGeo": "Yannickyayo\\LaravelApiGeo\\Facades\\LaravelApiGeo"
             }
         }
     },

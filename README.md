@@ -1,65 +1,111 @@
 # Wrapper Laravel pour communiquer avec l'API GEO du gouvernement français.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/yannickyayo/laravel-api-geo.svg?style=flat-square)](https://packagist.org/packages/yannickyayo/laravel-api-geo)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/yannickyayo/laravel-api-geo/run-tests?label=tests)](https://github.com/yannickyayo/laravel-api-geo/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/yannickyayo/laravel-api-geo/Check%20&%20fix%20styling?label=code%20style)](https://github.com/yannickyayo/laravel-api-geo/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Tests](https://github.com/YannickYayo/laravel-api-geo/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/YannickYayo/laravel-api-geo/actions/workflows/run-tests.yml)
+[![Larastan](https://github.com/YannickYayo/laravel-api-geo/actions/workflows/larastan.yml/badge.svg?branch=main)](https://github.com/YannickYayo/laravel-api-geo/actions/workflows/larastan.yml)
+[![Style](https://github.com/YannickYayo/laravel-api-geo/actions/workflows/php-cs-fixer.yml/badge.svg?branch=main)](https://github.com/YannickYayo/laravel-api-geo/actions/workflows/php-cs-fixer.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/yannickyayo/laravel-api-geo.svg?style=flat-square)](https://packagist.org/packages/yannickyayo/laravel-api-geo)
 
----
-This repo can be used as to scaffold a Laravel package. Follow these steps to get started:
-
-1. Press the "Use template" button at the top of this repo to create a new repo with the contents of this laravel-api-geo
-2. Run "./configure-laravel-api-geo.sh" to run a script that will replace all placeholders throughout all the files
-3. Remove this block of text.
-4. Have fun creating your package.
-5. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-api-geo.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-api-geo)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Ce package Laravel apporte un Wrapper autour de l'[API Geo](https://api.gouv.fr/les-api/api-geo) du gouvernement français.
 
 ## Installation
 
-You can install the package via composer:
+Vous pouvez installer le package via composer :
 
 ```bash
 composer require yannickyayo/laravel-api-geo
 ```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="Yannickyayo\LaravelApiGeo\LaravelApiGeoServiceProvider" --tag="laravel-api-geo-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-```bash
-php artisan vendor:publish --provider="Yannickyayo\LaravelApiGeo\LaravelApiGeoServiceProvider" --tag="laravel-api-geo-config"
-```
-
-This is the contents of the published config file:
+## Utilisation
 
 ```php
-return [
-];
+use Yannickyayo\LaravelApiGeo\Facades\LaravelApiGeo;
+
+//---------- Recherches ----------//
+
+// Chercher une commune
+$response = LaravelApiGeo::towns()->search('nom', 'Pau');
+/*
+Clés possible pour la recherche des communes :
+[
+    'codePostal',
+    'codeDepartement',
+    'codeRegion',
+    'nom',
+    'lon',
+    'lat',
+]
+*/
+
+// Chercher un département
+$response = LaravelApiGeo::departments()->search('nom', 'Pyrénées-Atlantiques');
+/*
+Clés possible pour la recherche des départements :
+[
+    'code',
+    'codeRegion',
+    'nom',
+]
+*/
+
+// Chercher une région
+$response = LaravelApiGeo::regions()->search('nom', 'Nouvelle-Aquitaine');
+/*
+Clés possible pour la recherche des régions :
+[
+    'code',
+    'nom',
+]
+*/
+
+/*
+Exemple de résultat :
+    [
+        "status_code" => 200,
+        "data" => "[{"code":"64445","codeDepartement":"64","codeRegion":"75","nom":"Pau","codesPostaux":["64000","64023"],"surface":3149.75,"population":77251,"centre":{"type":"Point","coordinates":[-0.3462,43.3197]},"contour":{"type":"Polygon","coordinates":[[...]]},"_score":0.24253612514094966,"departement":{"code":"64","nom":"Pyrénées-Atlantiques"},"region":{"code":"75","nom":"Nouvelle-Aquitaine"}}]",
+    ]
+
+    Vous recevez un tableau contenant de code status de la réponse et les données au format json.
+*/
 ```
 
-## Usage
+## Récupérer seulement certaines colonnes
+Il est possible de limiter les colonnes renvoyées par l'API avec la méthode `fields()` :
 
 ```php
-$laravel-api-geo = new Yannickyayo\LaravelApiGeo();
-echo $laravel-api-geo->echoPhrase('Hello, Spatie!');
-```
+$response = LaravelApiGeo::towns()->fields(['nom', 'surface'])->search('nom', 'Pau');
 
-## Testing
+/*
+Colonnes possibles pour les communes :
+[
+    'code',
+    'codeDepartement',
+    'codeRegion',
+    'nom',
+    'codesPostaux',
+    'surface',
+    'population',
+    'centre',
+    'contour',
+    'departement',
+    'region',
+]
+
+Colonnes possibles pour les départements
+[
+    'nom',
+    'code',
+    'codeRegion',
+    'region',
+]
+
+Colonnes possibles pour les régions
+[
+    'code',
+    'nom',
+]
+*/
+```
+## Test
 
 ```bash
 composer test
@@ -67,21 +113,21 @@ composer test
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Veuillez vous référer au [CHANGELOG](CHANGELOG.md) pour plus d'informations sur ce qui a changé récemment.
 
-## Contributing
+## Contribuer
 
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+Veuillez vous référer au fichier [CONTRIBUTING](.github/CONTRIBUTING.md) pour les détails.
 
-## Security Vulnerabilities
+## Failles de sécurité
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Veuillez vour référer à [notre politique de sécurité](../../security/policy) pour savoir comment faire un rapport de sécurité.
 
 ## Credits
 
 - [LEONE Yannick](https://github.com/YannickYayo)
-- [All Contributors](../../contributors)
+- [Tous les contributeurs](../../contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+Licence MIT (MIT). Voir [Licence](LICENSE.md) pour plus d'informations.

@@ -1,13 +1,13 @@
 <?php
 
-namespace Yannickyayo\LaravelApiGeo;
+namespace Yannickyayo\LaravelApiGeo\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Yannickyayo\LaravelApiGeo\LaravelApiGeo
  */
-class LaravelApiGeoFacade extends Facade
+class LaravelApiGeo extends Facade
 {
     protected static function getFacadeAccessor()
     {
