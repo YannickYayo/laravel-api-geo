@@ -1,4 +1,4 @@
-name: Check & fix styling
+name: Style
 
 on:
     # Trigger the workflow on push or pull request,
