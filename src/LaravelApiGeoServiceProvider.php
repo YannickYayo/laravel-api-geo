@@ -18,8 +18,10 @@ class LaravelApiGeoServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-api-geo')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-api-geo_table')
             ->hasCommand(LaravelApiGeoCommand::class);
+
+        $this->app->bind('laravel-api-geo', function ($app) {
+            return new LaravelApiGeo();
+        });
     }
 }
